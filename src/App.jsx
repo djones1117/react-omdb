@@ -1,33 +1,54 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
-
+import SearchMovieForm from './SearchMovieForm/SearchMovieForm'
 function App() {
-  const [count, setCount] = useState(0)
+ 
+ 
+  const [searchTerm, setSearchTerm] = useState('caddyshack');
+ 
+ 
+ 
+
+
+ function getMovieSearch(movieTitle){
+  setSearchTerm(movieTitle)
+ }
+// we want to make a http request to omdb api when our componet loads and is mounted on the DOM!
+useEffect(() => {
+ console.log('use effect is running!')
+ 
+ const omdbUrl = `http://www.omdbapi.com/?apikey=5e388ef2&t=${searchTerm}`
+ 
+ async function getMovieInfo(){
+
+
+  try {
+   const apiResponse = fetch(omdbUrl);
+
+
+   const data = (await apiResponse).json();
+   console.log(data)
+  
+
+} catch(err){
+    console.log(err, ' error from api call')
+  }
+ }
+
+
+getMovieInfo();
+
+
+}, []) // an empty dependency array, says run the use effects
+//once when the componet loads
+
 
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+     <SearchMovieForm getMovieSearch={getMovieSearch}/>
+     <p>The user is searching for {searchTerm}</p>
     </>
   )
 }
