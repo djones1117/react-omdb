@@ -7,7 +7,7 @@ function App() {
  
  
   const [searchTerm, setSearchTerm] = useState('caddyshack');
- 
+ const [movie, setMovie] = useState({})
  
  
 
@@ -17,7 +17,7 @@ function App() {
  }
 // we want to make a http request to omdb api when our componet loads and is mounted on the DOM!
 useEffect(() => {
- console.log('use effect is running!')
+
  
  const omdbUrl = `http://www.omdbapi.com/?apikey=5e388ef2&t=${searchTerm}`
  
@@ -25,17 +25,19 @@ useEffect(() => {
 
 
   try {
-   const apiResponse = fetch(omdbUrl);
+   const apiResponse = await fetch(omdbUrl);
 
 
-   const data = (await apiResponse).json();
+   const data = await apiResponse.json();
    console.log(data)
   
-
+setMovie(data)
 } catch(err){
     console.log(err, ' error from api call')
   }
- }
+ 
+
+}
 
 
 getMovieInfo();
