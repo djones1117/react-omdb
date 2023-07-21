@@ -28,11 +28,12 @@ useEffect(() => {
 
   try {
    const apiResponse = await fetch(omdbUrl); // by default fetch makes an http get request, to the endpoint in the argument
-
+// the response will be json which is stored in the apiresponse
 
    const data = await apiResponse.json();
    console.log(data)
-  
+  // always log your response from the api and look at it before you even think about
+  //doing anything else
 setMovie(data)
 } catch(err){
     console.log(err, ' error from api call')
